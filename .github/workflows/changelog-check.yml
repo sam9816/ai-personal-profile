@@ -1,0 +1,31 @@
+name: 变更记录提醒
+
+# 档案正文被修改但 CHANGELOG 未同步时给出提醒（不阻断合并）
+on:
+  pull_request:
+    paths:
+      - "README.md"
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出并获取完整历史
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 检查 CHANGELOG.md 是否同步更新
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if git diff --name-only "$BASE_SHA" "$HEAD_SHA" | grep -qx 'CHANGELOG.md'; then
+            echo "CHANGELOG.md 已同步更新，版本记录完整。"
+          else
+            echo "::warning file=CHANGELOG.md,title=缺少版本记录::本次 PR 修改了 README.md，但未更新 CHANGELOG.md，请补充本次变更说明后再合并。"
+          fi

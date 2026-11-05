@@ -1,0 +1,32 @@
+# 私密文件（公开仓库严禁提交）
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+secrets/
+private/
+*.local.md
+*_private.md
+
+# 编辑器与系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*.tmp
+~$*
+
+# 依赖与缓存
+node_modules/
+__pycache__/
+*.pyc
+.cache/
+
+# 本地草稿（未定稿的档案片段）
+drafts/
+scratch/

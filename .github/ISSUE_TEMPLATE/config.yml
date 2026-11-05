@@ -1,0 +1,7 @@
+# Issue 模板入口配置
+# 关闭空白 Issue，确保每条待办都带结构与隐私自查项
+blank_issues_enabled: false
+
+# 模板按文件名顺序展示：
+#   01-profile-item.md  档案条目补充 / 修订
+#   02-ai-sync-task.md  跨 AI 同步 / 校验

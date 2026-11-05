@@ -1,0 +1,12 @@
+# 统一行尾：脚本与 YAML 必须使用 LF，避免 Windows CRLF 导致 bash / Actions 解析失败
+* text=auto
+
+*.sh   text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.md   text eol=lf
+
+# 二进制文件不做转换
+*.png  binary
+*.jpg  binary
+*.pdf  binary
