@@ -73,6 +73,12 @@ fi
 BRANCH="$(git branch --show-current)"
 if gh repo view "$OWNER/$REPO_NAME" >/dev/null 2>&1; then
   echo "✓ 仓库已存在，跳过创建，改为同步远程"
+  # 同名仓库可能是此前手工建的私有空仓库；跳过创建会让 --public 失效，需纠正
+  if [ "$(gh api "repos/$OWNER/$REPO_NAME" --jq '.private')" = "true" ]; then
+    echo "· 检测到同名仓库为私有，按需求改为公开并补齐描述"
+    gh api -X PATCH "repos/$OWNER/$REPO_NAME" \
+      -F private=false -f visibility=public -f description="$REPO_DESC" >/dev/null
+  fi
   if git remote get-url origin >/dev/null 2>&1; then
     git remote set-url origin "https://github.com/$OWNER/$REPO_NAME.git"
   else
